@@ -1,6 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import '../DTO/category_list_item.dart';
+import '../DTO/operation_list_item.dart';
 import '../view_models/operation_add_view_model.dart';
 import 'package:lab_money_5/repositories/operation_repository/view_models/operation_update_view_model.dart';
 
@@ -17,7 +17,7 @@ class OperationsPersistentStorage
   /// Retrieves all existing user's financial operations
   ///
   /// Returns an empty list if error was encountered.
-  Future<List<CategoryListItem>> getAll() async
+  Future<List<OperationListItem>> getAll() async
   {
     // ...
   }
