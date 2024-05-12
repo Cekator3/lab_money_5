@@ -6,7 +6,7 @@ import '../view_models/category_update_view_model.dart';
 import 'errors/categories_persistent_storage_add_errors.dart';
 import 'errors/categories_persistent_storage_update_errors.dart';
 
-/// A subsystem for interacting with financial operations categories stored data
+/// A subsystem for interacting with financial operations categories data stored
 /// in a persistent storage (file or database).
 class CategoriesPersistentStorage
 {
