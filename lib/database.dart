@@ -15,9 +15,9 @@ class DB
     return await openDatabase(
       filepath,
       version: 1,
-      onCreate: (db, version)
+      onCreate: (db, version) async
       {
-        return db.execute('''
+        return await db.execute('''
           CREATE TABLE categories
           (
               id          INTEGER     PRIMARY KEY,

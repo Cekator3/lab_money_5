@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/categories_persistent_storage.dart';
+import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/errors/categories_persistent_storage_add_errors.dart';
+import 'package:lab_money_5/repositories/category_repository/enums/category_type.dart';
+import 'package:lab_money_5/repositories/category_repository/view_models/category_add_view_model.dart';
 
 class MoneyApp extends StatefulWidget
 {
@@ -95,4 +99,10 @@ void main() async
 {
   MoneyApp app = const MoneyApp();
   runApp(app);
+
+  final categories = CategoriesPersistentStorage();
+  await categories.init();
+  final errors = CategoriesPersistentStorageAddErrors();
+  await categories.add(CategoryAddViewModel(name: 'lol2', type: CategoryType.income, color: Colors.black), errors);
+  final res = await categories.getAll();
 }
