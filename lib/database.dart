@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,10 +10,10 @@ class DB
   static Future<Database> getInstance() async
   {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TestDB.db");
+    String filepath = path.join(documentsDirectory.path, "TestDB.db");
 
     return await openDatabase(
-      path,
+      filepath,
       version: 1,
       onCreate: (db, version)
       {
