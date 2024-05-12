@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 // Subsystem for initializing and getting object for interaction with database
 class DB
 {
-  static const _DB_NAME = 'testDb.db';
+  static const _DB_NAME = 'testDb2.db';
 
   static Future<String> _getDatabaseFilepath() async
   {
@@ -19,10 +19,10 @@ class DB
     return await db.execute('''
       CREATE TABLE categories
       (
-          id          INTEGER     PRIMARY KEY,
-          name        TEXT        NOT NULL UNIQUE,
-          isIncome    INTEGER     NOT NULL CHECK (isIncome IN (0, 1)),
-          color       INTEGER
+          id            INTEGER     PRIMARY KEY,
+          name          TEXT        NOT NULL UNIQUE,
+          is_income     INTEGER     NOT NULL CHECK (is_income IN (0, 1)),
+          color         INTEGER
       );
 
       CREATE TABLE operations

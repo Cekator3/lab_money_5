@@ -1,7 +1,8 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import '../DTO/category.dart';
+import '../DTO/operation.dart';
 import 'package:sqflite/sqflite.dart';
-import '../DTO/operation_list_item.dart';
 import 'package:lab_money_5/database.dart';
 import '../view_models/operation_add_view_model.dart';
 import 'package:lab_money_5/repositories/operation_repository/view_models/operation_update_view_model.dart';
@@ -26,12 +27,51 @@ class OperationsPersistentStorage
     _db = await DB.getInstance();
   }
 
+  Operation _convertToOperation(var entry)
+  {
+    return Operation(
+      id: entry['id'],
+      date: entry['date'],
+      price: entry['price'],
+      category: Category(
+        id: entry['category_id'],
+        name: entry['category_name'],
+        color: entry['category_color']
+      )
+    );
+  }
+
   /// Retrieves all existing user's financial operations
   ///
   /// Returns an empty list if error was encountered.
-  Future<List<OperationListItem>> getAll() async
+  Future<List<Operation>> getAll() async
   {
-    // ...
+    if (! _isInitialized())
+      throw Exception('OperationsPersistentStorage not initialized');
+
+    var entries = await _db!.rawQuery(
+      '''
+      SELECT
+          o.id        AS id,
+          o.date      AS date,
+          o.price     AS price,
+          c.id        AS category_id,
+          c.name      AS category_name,
+          c.is_income AS category_is_income,
+          c.color     AS category_color
+
+      FROM
+          operations AS o
+          INNER JOIN
+              categories AS c
+          ON
+              o.category_id = c.id;
+      '''
+    );
+    if (entries.isEmpty)
+      return [];
+
+    return entries.map((entry) => _convertToOperation(entry)).toList();
   }
 
   /// Adds a new financial operation for user.
@@ -39,7 +79,17 @@ class OperationsPersistentStorage
   /// Nothing will be added if error was encountered.
   Future<void> add(OperationAddViewModel operation) async
   {
-    // ...
+    if (! _isInitialized())
+      throw Exception('OperationsPersistentStorage not initialized');
+
+    await _db!.rawInsert('''
+      INSERT INTO
+          operations (category_id, date, price)
+      VALUES
+          (?, ?, ?);
+      ''',
+      [operation.categoryId, operation.date.millisecondsSinceEpoch, operation.price]
+    );
   }
 
   /// Updates user's financial operation
@@ -47,7 +97,22 @@ class OperationsPersistentStorage
   /// Nothing will be updated if error was encountered.
   Future<void> update(OperationUpdateViewModel operation) async
   {
-    // ...
+    if (! _isInitialized())
+      throw Exception('OperationsPersistentStorage not initialized');
+
+    _db!.rawUpdate(
+      '''
+        UPDATE
+            operations
+        SET
+            category_id = ?,
+            date = ?,
+            price = ?
+        WHERE
+            id = ?;
+      ''',
+      [operation.categoryId, operation.date.millisecondsSinceEpoch, operation.price, operation.id]
+    );
   }
 
   /// Removes user's financial operation

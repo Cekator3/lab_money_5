@@ -1,7 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import '../DTO/category.dart';
 import 'package:sqflite/sqflite.dart';
-import '../DTO/category_list_item.dart';
 import 'package:lab_money_5/database.dart';
 import '../view_models/category_add_view_model.dart';
 import '../view_models/category_update_view_model.dart';
@@ -29,19 +29,20 @@ class CategoriesPersistentStorage
     _db = await DB.getInstance();
   }
 
-  CategoryListItem _convertToCategoryListItem(var entry)
+  Category _convertToCategory(var entry)
   {
-    return CategoryListItem(
+    return Category(
       id: entry['id'],
       name: entry['name'],
       color: entry['color'],
+      isIncome: entry['is_income'] == 1
     );
   }
 
   /// Retrieves all existing categories
   ///
   /// Returns an empty list if error was encountered.
-  Future<List<CategoryListItem>> getAll() async
+  Future<List<Category>> getAll() async
   {
     if (! _isInitialized())
       throw Exception('CategoriesPersistentStorage not initialized');
@@ -49,9 +50,7 @@ class CategoriesPersistentStorage
     var entries = await _db!.rawQuery(
       '''
       SELECT
-          id,
-          name,
-          color
+          *
       FROM
           categories;
       '''
@@ -59,7 +58,7 @@ class CategoriesPersistentStorage
     if (entries.isEmpty)
       return [];
 
-    return entries.map((entry) => _convertToCategoryListItem(entry)).toList();
+    return entries.map((entry) => _convertToCategory(entry)).toList();
   }
 
   /// Adds a new category
@@ -74,7 +73,7 @@ class CategoriesPersistentStorage
     {
       await _db!.rawInsert('''
         INSERT INTO
-            categories (name, isIncome, color)
+            categories (name, is_income, color)
         VALUES
             (?, ?, ?);
         ''',
@@ -108,7 +107,7 @@ class CategoriesPersistentStorage
               categories
           SET
               name = ?,
-              isIncome = ?,
+              is_income = ?,
               color = ?
           WHERE
               id = ?;
