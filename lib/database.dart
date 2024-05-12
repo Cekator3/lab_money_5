@@ -21,7 +21,7 @@ class DB
           CREATE TABLE categories
           (
               id          INTEGER     PRIMARY KEY,
-              name        TEXT        NOT NULL,
+              name        TEXT        NOT NULL UNIQUE,
               isIncome    INTEGER     NOT NULL CHECK (isIncome IN (0, 1)),
               color       INTEGER
           );
