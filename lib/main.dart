@@ -6,6 +6,8 @@ import 'package:lab_money_5/repositories/category_repository/categories_persiste
 import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/errors/categories_persistent_storage_add_errors.dart';
 import 'package:lab_money_5/repositories/category_repository/enums/category_type.dart';
 import 'package:lab_money_5/repositories/category_repository/view_models/category_add_view_model.dart';
+import 'package:lab_money_5/repositories/operation_repository/operations_persistent_storage/operations_persistent_storage.dart';
+import 'package:lab_money_5/repositories/operation_repository/view_models/operation_add_view_model.dart';
 
 class MoneyApp extends StatefulWidget
 {
@@ -102,7 +104,17 @@ void main() async
 
   final categories = CategoriesPersistentStorage();
   await categories.init();
-  final errors = CategoriesPersistentStorageAddErrors();
-  await categories.add(CategoryAddViewModel(name: 'lol2', type: CategoryType.income, color: Colors.black), errors);
-  final res = await categories.getAll();
+  await categories.add(CategoryAddViewModel(name: 'lol2', type: CategoryType.income, color: Colors.black), CategoriesPersistentStorageAddErrors());
+  final res1 = await categories.getAll();
+
+  final operations = OperationsPersistentStorage();
+  await operations.init();
+  await operations.add(
+    OperationAddViewModel(
+      categoryId: res1.first.getId(),
+      date: DateTime.now(),
+      price: 123
+    )
+  );
+  final res = await operations.getAll();
 }
