@@ -7,7 +7,7 @@ import '../view_models/category_add_view_model.dart';
 import '../view_models/category_update_view_model.dart';
 import 'errors/categories_persistent_storage_add_errors.dart';
 import 'errors/categories_persistent_storage_update_errors.dart';
-import 'package:lab_money_5/repositories/category_repository/enums/category_type.dart';
+import 'package:lab_money_5/enums/category_type.dart';
 
 /// A subsystem for interacting with financial operations categories data stored
 /// in a persistent storage (file or database).

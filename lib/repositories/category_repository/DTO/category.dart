@@ -1,5 +1,5 @@
 import 'dart:ui';
-import '../enums/category_type.dart';
+import '../../../enums/category_type.dart';
 
 /// A subsystem for reading data about certain category passed from the CategoryRepository.
 class Category

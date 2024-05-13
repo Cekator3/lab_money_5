@@ -1,7 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'DTO/category.dart';
-import 'enums/category_type.dart';
+import '../../enums/category_type.dart';
 import 'DTO/category_list_item.dart';
 import 'errors/category_add_errors.dart';
 import 'errors/category_update_errors.dart';

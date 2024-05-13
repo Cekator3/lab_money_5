@@ -1,5 +1,5 @@
 import 'dart:ui';
-import '../enums/category_type.dart';
+import '../../../enums/category_type.dart';
 
 /// A subsystem for passing data into procedure "update" of CategoryRepository.
 class CategoryUpdateViewModel
