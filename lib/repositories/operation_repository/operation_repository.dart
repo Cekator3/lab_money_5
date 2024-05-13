@@ -2,19 +2,22 @@
 
 import 'DTO/operation.dart';
 import 'DTO/operation_list_item.dart';
-import 'errors/operation_add_errors.dart';
-import 'errors/operation_update_errors.dart';
 import 'view_models/operation_add_view_model.dart';
 import 'view_models/operation_update_view_model.dart';
+import 'package:lab_money_5/repositories/operation_repository/operations_persistent_storage/operations_persistent_storage.dart';
 
 /// A subsystem for interacting with stored data on user's financial operations.
 class OperationRepository
 {
+  List<Operation> _operationsCache = [];
+  final _operationStorage = OperationsPersistentStorage();
+
+
   /// Initializes [CategoryRepository] object
   Future<void> init() async
   {
-    // 1. Initialize persistent storage
-    // 2. Initialize in-memory cache
+    await _operationStorage.init();
+    _operationsCache = await _operationStorage.getAll();
   }
 
   /// Retrieves all existing user's financial operations
@@ -22,7 +25,15 @@ class OperationRepository
   /// Returns an empty list if error was encountered.
   List<OperationListItem> getAll()
   {
-    // 1. Get from in-memory cache
+    // 1. Get from cache
+    return _operationsCache.map((operation) =>
+      OperationListItem(
+        id: operation.getId(),
+        category: operation.getCategory(),
+        date: operation.getDate().millisecondsSinceEpoch,
+        price: operation.getPrice()
+      )
+    ).toList();
   }
 
   /// Retrieves user's financial operation's data
@@ -30,25 +41,47 @@ class OperationRepository
   /// Returns `null` if error occurred or financial operation not exists.
   Operation? get(int id)
   {
-    // 1. Get from in-memory cache
+    // 1. Get from cache
+    for (Operation operation in _operationsCache)
+      if (operation.getId() == id)
+        return operation;
+    return null;
   }
 
   /// Adds a new financial operation for user.
   ///
   /// Nothing will be added if error was encountered.
-  Future<void> add(OperationAddViewModel operation, OperationAddErrors errors) async
+  Future<void> add(OperationAddViewModel operation) async
   {
     // 1. Try add to persistent storage
-    // 2. Add to in-memory cache
+    int? operationId = await _operationStorage.add(operation);
+    // 2. Add to cache
+    _operationsCache.add((await _operationStorage.get(operationId!))!);
+  }
+
+  void _recreateCache() async
+  {
+    _operationsCache = await _operationStorage.getAll();
   }
 
   /// Updates user's financial operation
   ///
   /// Nothing will be updated if error was encountered.
-  Future<void> update(OperationUpdateViewModel operation, OperationUpdateErrors errors) async
+  Future<void> update(OperationUpdateViewModel operation) async
   {
     // 1. Try update in persistent storage
-    // 2. Update in-memory cache
+    await _operationStorage.update(operation);
+    // 2. Update cache
+    for (int i = 0; i < _operationsCache.length; i++)
+    {
+      if (_operationsCache[i].getId() == operation.id)
+      {
+        _operationsCache[i] = (await _operationStorage.get(operation.id))!;
+        return;
+      }
+    }
+    // Cache is invalid
+    _recreateCache();
   }
 
   /// Removes user's financial operation
@@ -57,7 +90,19 @@ class OperationRepository
   Future<void> remove(int id) async
   {
     // 1. Try remove from persistent storage
+    _operationStorage.remove(id);
+
     // 2. Remove from in-memory cache
+    for (int i = 0; i < _operationsCache.length; i++)
+    {
+      if (_operationsCache[i].getId() == id)
+      {
+        _operationsCache.removeAt(i);
+        return;
+      }
+    }
+    // Cache is invalid
+    _recreateCache();
   }
 
   /// Removes user's financial operations associated with certain category
@@ -66,5 +111,6 @@ class OperationRepository
   Future<void> removeAllByCategory(int categoryId) async
   {
     // 1. Remove from in-memory cache
+    _operationsCache.removeWhere((operation) => operation.getCategory().getId() == categoryId);
   }
 }

@@ -57,7 +57,6 @@ class OperationsPersistentStorage
           o.price     AS price,
           c.id        AS category_id,
           c.name      AS category_name,
-          c.is_income AS category_is_income,
           c.color     AS category_color
 
       FROM
@@ -72,6 +71,44 @@ class OperationsPersistentStorage
       return [];
 
     return entries.map((entry) => _convertToOperation(entry)).toList();
+  }
+
+  /// Retrieves user's financial operation
+  ///
+  /// Returns null if error was encountered.
+  Future<Operation?> get(int id) async
+  {
+    if (! _isInitialized())
+      throw Exception('OperationsPersistentStorage not initialized');
+
+    var entry = await _db!.rawQuery(
+      '''
+      SELECT
+          o.id        AS id,
+          o.date      AS date,
+          o.price     AS price,
+          c.id        AS category_id,
+          c.name      AS category_name,
+          c.color     AS category_color
+
+      FROM
+          operations AS o
+          INNER JOIN
+              categories AS c
+          ON
+              o.category_id = c.id
+
+      WHERE
+        o.id = ?
+
+      LIMIT 1
+      ''',
+      [id]
+    );
+    if (entry.isEmpty)
+      return null;
+
+    return _convertToOperation(entry.toList().first);
   }
 
   /// Adds a new financial operation for user.
@@ -102,7 +139,7 @@ class OperationsPersistentStorage
     if (! _isInitialized())
       throw Exception('OperationsPersistentStorage not initialized');
 
-    _db!.rawUpdate(
+    await _db!.rawUpdate(
       '''
         UPDATE
             operations
