@@ -53,10 +53,18 @@ class OperationRepository
 
   /// Removes user's financial operation
   ///
-  /// Nothing will be deleted if error was encountered or category not exists.
+  /// Nothing will be deleted if error was encountered or operation not exists.
   Future<void> remove(int id) async
   {
     // 1. Try remove from persistent storage
     // 2. Remove from in-memory cache
+  }
+
+  /// Removes user's financial operations associated with certain category
+  ///
+  /// Nothing will be deleted if error was encountered.
+  Future<void> removeAllByCategory(int categoryId) async
+  {
+    // 1. Remove from in-memory cache
   }
 }

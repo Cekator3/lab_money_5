@@ -77,12 +77,14 @@ class OperationsPersistentStorage
   /// Adds a new financial operation for user.
   ///
   /// Nothing will be added if error was encountered.
-  Future<void> add(OperationAddViewModel operation) async
+  ///
+  /// Returns operation's ID or null if error was encountered.
+  Future<int?> add(OperationAddViewModel operation) async
   {
     if (! _isInitialized())
       throw Exception('OperationsPersistentStorage not initialized');
 
-    await _db!.rawInsert('''
+    return await _db!.rawInsert('''
       INSERT INTO
           operations (category_id, date, price)
       VALUES

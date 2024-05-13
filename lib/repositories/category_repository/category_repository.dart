@@ -128,7 +128,7 @@ class CategoryRepository
     _recreateCache();
   }
 
-  /// Removes a category and associated with it user's financial operations.
+  /// Removes a category.
   ///
   /// Nothing will be deleted if error was encountered or category not exists.
   Future<void> remove(int id) async
