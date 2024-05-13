@@ -61,17 +61,19 @@ class CategoriesPersistentStorage
     return entries.map((entry) => _convertToCategory(entry)).toList();
   }
 
-  /// Adds a new category
+  /// Adds a new category.
   ///
   /// Nothing will be added if error was encountered.
-  Future<void> add(CategoryAddViewModel category, CategoriesPersistentStorageAddErrors errors) async
+  ///
+  /// Returns category's ID or null if error was encountered.
+  Future<int?> add(CategoryAddViewModel category, CategoriesPersistentStorageAddErrors errors) async
   {
     if (! _isInitialized())
       throw Exception('CategoriesPersistentStorage not initialized');
 
     try
     {
-      await _db!.rawInsert('''
+      return await _db!.rawInsert('''
         INSERT INTO
             categories (name, is_income, color)
         VALUES
@@ -85,7 +87,7 @@ class CategoriesPersistentStorage
       if (e.isUniqueConstraintError())
       {
         errors.add(errors.ALREADY_EXISTS);
-        return;
+        return null;
       }
       rethrow;
     }
@@ -126,7 +128,7 @@ class CategoriesPersistentStorage
     }
   }
 
-  /// Removes a category
+  /// Removes a category and associated with it user's financial operations.
   ///
   /// Nothing will be deleted if error was encountered or category not exists.
   Future<void> remove(int id) async
