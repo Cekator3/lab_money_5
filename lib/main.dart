@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/categories_persistent_storage.dart';
 import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/errors/categories_persistent_storage_add_errors.dart';
+import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/repositories/category_repository/enums/category_type.dart';
+import 'package:lab_money_5/repositories/category_repository/errors/category_add_errors.dart';
 import 'package:lab_money_5/repositories/category_repository/view_models/category_add_view_model.dart';
+import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 import 'package:lab_money_5/repositories/operation_repository/operations_persistent_storage/operations_persistent_storage.dart';
 import 'package:lab_money_5/repositories/operation_repository/view_models/operation_add_view_model.dart';
 
@@ -102,19 +105,21 @@ void main() async
   MoneyApp app = const MoneyApp();
   runApp(app);
 
-  final categories = CategoriesPersistentStorage();
+  final categories = CategoryRepository();
   await categories.init();
-  await categories.add(CategoryAddViewModel(name: 'lol2', type: CategoryType.income, color: Colors.black), CategoriesPersistentStorageAddErrors());
-  final res1 = await categories.getAll();
+  await categories.add(CategoryAddViewModel(name: 'lol2', type: CategoryType.income, color: Colors.black), CategoryAddErrors());
+  await categories.add(CategoryAddViewModel(name: 'lol1', type: CategoryType.income, color: Colors.black), CategoryAddErrors());
+  await categories.add(CategoryAddViewModel(name: 'lol3', type: CategoryType.income, color: Colors.black), CategoryAddErrors());
 
-  final operations = OperationsPersistentStorage();
+  final operations = OperationRepository();
   await operations.init();
-  await operations.add(
-    OperationAddViewModel(
-      categoryId: res1.first.getId(),
-      date: DateTime.now(),
-      price: 123
-    )
-  );
-  final res = await operations.getAll();
+  final res1 = categories.getAll();
+  await operations.add(OperationAddViewModel(categoryId: res1.first.getId(), date: DateTime.now(), price: 123));
+  await operations.add(OperationAddViewModel(categoryId: res1.first.getId(), date: DateTime.now(), price: 456));
+  await operations.add(OperationAddViewModel(categoryId: res1.first.getId(), date: DateTime.now(), price: 789));
+  final res2 = operations.getAll();
+  final categoryId = res1.first.getId();
+  await categories.remove(categoryId);
+  await operations.removeAllByCategory(categoryId);
+  final res3 = operations.getAll();
 }

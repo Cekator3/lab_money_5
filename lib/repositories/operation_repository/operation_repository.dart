@@ -4,7 +4,7 @@ import 'DTO/operation.dart';
 import 'DTO/operation_list_item.dart';
 import 'view_models/operation_add_view_model.dart';
 import 'view_models/operation_update_view_model.dart';
-import 'package:lab_money_5/repositories/operation_repository/operations_persistent_storage/operations_persistent_storage.dart';
+import 'operations_persistent_storage/operations_persistent_storage.dart';
 
 /// A subsystem for interacting with stored data on user's financial operations.
 class OperationRepository

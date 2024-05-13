@@ -1,16 +1,15 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/categories_persistent_storage.dart';
-import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/errors/categories_persistent_storage_add_errors.dart';
-import 'package:lab_money_5/repositories/category_repository/categories_persistent_storage/errors/categories_persistent_storage_update_errors.dart';
-import 'package:lab_money_5/repositories/category_repository/enums/category_type.dart';
-
 import 'DTO/category.dart';
+import 'enums/category_type.dart';
 import 'DTO/category_list_item.dart';
 import 'errors/category_add_errors.dart';
 import 'errors/category_update_errors.dart';
 import 'view_models/category_add_view_model.dart';
 import 'view_models/category_update_view_model.dart';
+import 'categories_persistent_storage/categories_persistent_storage.dart';
+import 'categories_persistent_storage/errors/categories_persistent_storage_add_errors.dart';
+import 'categories_persistent_storage/errors/categories_persistent_storage_update_errors.dart';
 
 /// A subsystem for interacting with stored data on financial operations categories.
 class CategoryRepository
