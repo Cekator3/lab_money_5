@@ -13,6 +13,6 @@ class StatisticEntry
 
   Color getCategoryColor() => Color(_categoryColor);
   String getCategoryName() => _categoryName;
-  double getShareInPercents() => _share;
+  double getShareInPercents() => _share * 100;
   double getPrice() => _price;
 }
