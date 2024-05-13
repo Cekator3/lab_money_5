@@ -1,12 +1,10 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'package:lab_money_5/enums/category_type.dart';
-import 'package:lab_money_5/repositories/category_repository/DTO/category.dart';
-
 import 'DTO/statistic_entry.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:lab_money_5/database.dart';
 import 'view_models/statistic_get_view_model.dart';
+import 'package:lab_money_5/enums/category_type.dart';
 
 /// A subsystem for reading stored statistical data on user's financial operations.
 class StatisticRepository
