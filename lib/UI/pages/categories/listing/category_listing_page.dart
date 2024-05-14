@@ -1,6 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'package:flutter/material.dart';
+import 'package:lab_money_5/repositories/category_repository/DTO/category_list_item.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/UI/pages/categories/listing/widgets/categories_list_widget.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
@@ -20,17 +21,41 @@ class CategoryListingPage extends StatefulWidget
 
 class CategoryListingPageState extends State<CategoryListingPage>
 {
-  void gotoCategoryCreatingPage()
+  List<CategoryListItem> _categoriesList = [];
+
+  @override
+  void initState()
+  {
+    super.initState();
+    _categoriesList = widget.categories.getAll();
+  }
+
+  void _updateCategoriesList()
+  {
+    setState(() {
+      _categoriesList = widget.categories.getAll();
+    });
+  }
+
+  void _gotoCategoryCreatingPage()
   {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => CategoryCreatingPage(
           categories: widget.categories,
-          onCreate: () {setState(() {});}
+          onCreate: _updateCategoriesList
         ),
       )
     );
+  }
+
+  void _removeCategory(int id) async
+  {
+    await widget.categories.remove(id);
+    widget.operations.removeAllByCategory(id);
+
+    _updateCategoriesList();
   }
 
   @override
@@ -45,14 +70,14 @@ class CategoryListingPageState extends State<CategoryListingPage>
               Icons.add,
               color: Colors.white,
             ),
-            onPressed: gotoCategoryCreatingPage,
+            onPressed: _gotoCategoryCreatingPage,
           ),
         ],
       ),
 
       body: Column(
         children: [
-          CategoriesListWidget(categories: widget.categories, operations: widget.operations),
+          CategoriesListWidget(categories: _categoriesList, removeCategory: _removeCategory,),
         ],
       )
     );
