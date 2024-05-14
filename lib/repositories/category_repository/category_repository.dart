@@ -109,18 +109,13 @@ class CategoryRepository
 
     // Update in storage
     final storageErrors = CategoriesPersistentStorageUpdateErrors();
-    _categoriesStorage.update(category, storageErrors);
+    await _categoriesStorage.update(category, storageErrors);
 
     if (storageErrors.hasAny())
     {
       if (storageErrors.isAlreadyExists())
-      {
         errors.add(errors.ALREADY_EXISTS);
-        return;
-      }
-
-      // Error handling is outdated.
-      assert(false);
+      return;
     }
 
     // Update in cache

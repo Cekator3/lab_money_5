@@ -136,9 +136,13 @@ class CategoryUpdatingPageState extends State<CategoryUpdatingPage>
                 decoration: InputDecoration(
                   labelText: 'Название',
                   errorText: _nameValidationErrorText,
-                  border: const OutlineInputBorder()
+                  border: const OutlineInputBorder(),
+                  errorStyle: const TextStyle(
+                    fontSize: 12
+                  )
                 ),
               ),
+              const SizedBox(height: 16),
 
               DropdownButtonFormField(
                 items: _getCategoryTypes(),

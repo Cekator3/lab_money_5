@@ -127,8 +127,10 @@ class CategoryCreatingPageState extends State<CategoryCreatingPage>
                   border: const OutlineInputBorder()
                 ),
               ),
+              const SizedBox(height: 16),
 
               DropdownButtonFormField(
+                value: _type,
                 items: _getCategoryTypes(),
                 onChanged: (CategoryType? type)
                 {
