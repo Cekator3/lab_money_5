@@ -1,12 +1,12 @@
-
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
+import 'package:lab_money_5/repositories/operation_repository/errors/operation_add_errors.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 import 'package:lab_money_5/repositories/category_repository/DTO/category_list_item.dart';
 import 'package:lab_money_5/repositories/operation_repository/view_models/operation_add_view_model.dart';
@@ -30,6 +30,7 @@ class OperationCreatingPageState extends State<OperationCreatingPage>
   CategoryListItem? _category;
   DateTime _date = DateTime.now();
   double _price = 0.0;
+  String _priceValidationErrorText = '';
 
   @override
   void initState()
@@ -56,10 +57,26 @@ class OperationCreatingPageState extends State<OperationCreatingPage>
     }).toList();
   }
 
+  void _setValidationErrorForPriceInputField(String msg)
+  {
+    setState(() {
+      _priceValidationErrorText = msg;
+    });
+  }
+
   void _createOperation() async
   {
     final operation = OperationAddViewModel(categoryId: _category!.getId(), date: _date, price: _price);
-    await widget.operations.add(operation);
+    final errors = OperationAddErrors();
+    await widget.operations.add(operation, errors);
+
+    if (errors.hasAny())
+    {
+      if (errors.isPriceMustBePositive())
+        _setValidationErrorForPriceInputField('Сумма должна быть положительным числом');
+      return;
+    }
+
     widget.onCreate();
     Navigator.pop(context);
   }
@@ -127,9 +144,10 @@ class OperationCreatingPageState extends State<OperationCreatingPage>
 
               TextFormField(
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Сумма',
-                  border: OutlineInputBorder()
+                  border: const OutlineInputBorder(),
+                  errorText: _priceValidationErrorText
                 ),
                 validator: (value)
                 {

@@ -1,5 +1,8 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'package:lab_money_5/repositories/operation_repository/errors/operation_add_errors.dart';
+import 'package:lab_money_5/repositories/operation_repository/errors/operation_update_errors.dart';
+
 import 'DTO/operation.dart';
 import 'DTO/operation_list_item.dart';
 import 'view_models/operation_add_view_model.dart';
@@ -33,19 +36,31 @@ class OperationRepository
     return await _operationStorage.get(id);
   }
 
+  void _validatePrice(double price, dynamic errors)
+  {
+    if (price <= 0.0)
+      errors.add(errors.PRICE_MUST_BE_POSITIVE);
+  }
+
   /// Adds a new financial operation for user.
   ///
   /// Nothing will be added if error was encountered.
-  Future<void> add(OperationAddViewModel operation) async
+  Future<void> add(OperationAddViewModel operation, OperationAddErrors errors) async
   {
+    _validatePrice(operation.price, errors);
+    if (errors.hasAny())
+      return;
     await _operationStorage.add(operation);
   }
 
   /// Updates user's financial operation
   ///
   /// Nothing will be updated if error was encountered.
-  Future<void> update(OperationUpdateViewModel operation) async
+  Future<void> update(OperationUpdateViewModel operation, OperationUpdateErrors errors) async
   {
+    _validatePrice(operation.price, errors);
+    if (errors.hasAny())
+      return;
     await _operationStorage.update(operation);
   }
 

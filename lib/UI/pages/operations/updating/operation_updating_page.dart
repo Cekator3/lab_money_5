@@ -1,15 +1,15 @@
-
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'package:intl/intl.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
+import 'package:lab_money_5/repositories/operation_repository/errors/operation_update_errors.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 import 'package:lab_money_5/repositories/category_repository/DTO/category_list_item.dart';
-import 'package:lab_money_5/repositories/operation_repository/view_models/operation_add_view_model.dart';
+import 'package:lab_money_5/repositories/operation_repository/view_models/operation_update_view_model.dart';
 
 class OperationUpdatingPage extends StatefulWidget
 {
@@ -28,6 +28,7 @@ class OperationUpdatingPageState extends State<OperationUpdatingPage>
 {
   final _formKey = GlobalKey<FormState>();
   final _priceEditingController = TextEditingController();
+  String _priceValidationErrorText = '';
 
   List<CategoryListItem> _categoriesList = [];
   CategoryListItem? _category;
@@ -71,10 +72,26 @@ class OperationUpdatingPageState extends State<OperationUpdatingPage>
     }).toList();
   }
 
-  void _createOperation() async
+  void _setValidationErrorForPriceInputField(String msg)
   {
-    final operation = OperationAddViewModel(categoryId: _category!.getId(), date: _date, price: _price);
-    await widget.operations.add(operation);
+    setState(() {
+      _priceValidationErrorText = msg;
+    });
+  }
+
+  void _updateOperation() async
+  {
+    final operation = OperationUpdateViewModel(id: widget.operationId, categoryId: _category!.getId(), date: _date, price: _price);
+    final errors = OperationUpdateErrors();
+    await widget.operations.update(operation, errors);
+
+    if (errors.hasAny())
+    {
+      if (errors.isPriceMustBePositive())
+        _setValidationErrorForPriceInputField('Сумма должна быть положительным числом');
+      return;
+    }
+
     widget.onUpdate();
     Navigator.pop(context);
   }
@@ -143,16 +160,11 @@ class OperationUpdatingPageState extends State<OperationUpdatingPage>
               TextFormField(
                 controller: _priceEditingController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Сумма',
-                  border: OutlineInputBorder()
+                  border: const OutlineInputBorder(),
+                  errorText: _priceValidationErrorText
                 ),
-                validator: (value)
-                {
-                  if (value == null || value.isEmpty)
-                    return 'Введите сумму';
-                  return null;
-                },
                 onChanged: (value)
                 {
                   _price = double.tryParse(value) ?? 0.0;
@@ -160,7 +172,7 @@ class OperationUpdatingPageState extends State<OperationUpdatingPage>
               ),
 
               ElevatedButton(
-                onPressed: _createOperation,
+                onPressed: _updateOperation,
                 child: const Text('Сохранить изменения'),
               )
             ],
