@@ -66,7 +66,10 @@ class OperationsPersistentStorage
           INNER JOIN
               categories AS c
           ON
-              o.category_id = c.id;
+              o.category_id = c.id
+
+      ORDER BY
+        o.date DESC;
       '''
     );
     if (entries.isEmpty)
