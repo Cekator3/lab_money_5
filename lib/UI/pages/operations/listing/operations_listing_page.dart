@@ -93,14 +93,12 @@ class OperationsListingPageState extends State<OperationsListingPage>
         ],
       ),
 
-      body: Column(
-        children: [
-          OperationsListWidget(
-            operations: _operationsList,
-            removeOperation: _removeOperation,
-            gotoOperationUpdatingPage: _gotoOperationUpdatingPage,
-          ),
-        ],
+      body: Expanded(
+        child: OperationsListWidget(
+          operations: _operationsList,
+          removeOperation: _removeOperation,
+          gotoOperationUpdatingPage: _gotoOperationUpdatingPage,
+        ),
       )
     );
   }

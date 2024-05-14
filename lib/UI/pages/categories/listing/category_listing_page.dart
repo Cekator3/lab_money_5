@@ -88,15 +88,13 @@ class CategoryListingPageState extends State<CategoryListingPage>
         ],
       ),
 
-      body: Column(
-        children: [
-          CategoriesListWidget(
-            categories: _categoriesList,
-            removeCategory: _removeCategory,
-            gotoCategoryUpdatingPage: _gotoCategoryUpdatingPage,
-          ),
-        ],
-      )
+      body: Expanded(
+        child: CategoriesListWidget(
+          categories: _categoriesList,
+          removeCategory: _removeCategory,
+          gotoCategoryUpdatingPage: _gotoCategoryUpdatingPage,
+        ),
+      ),
     );
   }
 }
