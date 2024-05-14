@@ -58,7 +58,6 @@ class DB
     if (_db != null)
       return _db!;
 
-    await databaseFactory.deleteDatabase(await _getDatabaseFilepath());
     _db = await openDatabase(
       await _getDatabaseFilepath(),
       version: 1,
