@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lab_money_5/UI/pages/operations/creating/operation_creating_page.dart';
+import 'package:lab_money_5/UI/pages/operations/updating/operation_updating_page.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 import 'package:lab_money_5/repositories/operation_repository/DTO/operation_list_item.dart';
@@ -57,16 +58,17 @@ class OperationsListingPageState extends State<OperationsListingPage>
 
   void _gotoOperationUpdatingPage(int id)
   {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => OperationUpdatingPage(
-    //       operations: widget.operations,
-    //       operationId: id,
-    //       onUpdate: _updateOperationsList,
-    //     ),
-    //   )
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OperationUpdatingPage(
+          categories: widget.categories,
+          operations: widget.operations,
+          operationId: id,
+          onUpdate: _updateOperationsList,
+        ),
+      )
+    );
   }
 
   void _removeOperation(int id) async
