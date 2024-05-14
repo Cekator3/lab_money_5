@@ -2,7 +2,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lab_money_5/enums/category_type.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:lab_money_5/localization/category_type_localization.dart';

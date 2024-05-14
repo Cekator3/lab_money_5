@@ -1,10 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'package:intl/intl.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/repositories/operation_repository/errors/operation_update_errors.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
