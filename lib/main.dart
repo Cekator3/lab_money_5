@@ -40,7 +40,7 @@ class MoneyAppState extends State<MoneyApp>
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: const ColorScheme.light(
-          onSurface: Colors.white,
+          onSurface: Colors.black,
           onBackground: Colors.cyan,
         ),
         textTheme: GoogleFonts.manropeTextTheme(
