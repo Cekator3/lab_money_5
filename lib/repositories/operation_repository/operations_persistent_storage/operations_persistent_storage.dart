@@ -162,7 +162,7 @@ class OperationsPersistentStorage
     if (! _isInitialized())
       throw Exception('CategoriesPersistentStorage not initialized');
 
-    _db!.rawDelete(
+    await _db!.rawDelete(
       '''
         DELETE FROM
             operations

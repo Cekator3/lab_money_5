@@ -90,7 +90,7 @@ class OperationRepository
   Future<void> remove(int id) async
   {
     // 1. Try remove from persistent storage
-    _operationStorage.remove(id);
+    await _operationStorage.remove(id);
 
     // 2. Remove from in-memory cache
     for (int i = 0; i < _operationsCache.length; i++)
