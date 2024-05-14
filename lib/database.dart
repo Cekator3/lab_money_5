@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 // Subsystem for initializing and getting object for interaction with database
 class DB
@@ -37,7 +38,7 @@ class DB
       (
           id              INTEGER     PRIMARY KEY AUTOINCREMENT,
           category_id     INTEGER     NOT NULL,
-          date            INTEGER     NOT NULL,
+          date            TEXT        NOT NULL,
           price           REAL        NOT NULL,
 
           FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
@@ -57,6 +58,7 @@ class DB
     if (_db != null)
       return _db!;
 
+    await databaseFactory.deleteDatabase(await _getDatabaseFilepath());
     _db = await openDatabase(
       await _getDatabaseFilepath(),
       version: 1,

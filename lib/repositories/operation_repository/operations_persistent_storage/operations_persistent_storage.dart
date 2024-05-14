@@ -127,7 +127,7 @@ class OperationsPersistentStorage
       VALUES
           (?, ?, ?);
       ''',
-      [operation.categoryId, operation.date.millisecondsSinceEpoch, operation.price]
+      [operation.categoryId, operation.date.toIso8601String(), operation.price]
     );
   }
 
@@ -150,7 +150,7 @@ class OperationsPersistentStorage
         WHERE
             id = ?;
       ''',
-      [operation.categoryId, operation.date.millisecondsSinceEpoch, operation.price, operation.id]
+      [operation.categoryId, operation.date.toIso8601String(), operation.price, operation.id]
     );
   }
 

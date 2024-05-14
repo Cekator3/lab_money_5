@@ -30,7 +30,7 @@ class OperationRepository
       OperationListItem(
         id: operation.getId(),
         category: operation.getCategory(),
-        date: operation.getDate().millisecondsSinceEpoch,
+        date: operation.getDate().toIso8601String(),
         price: operation.getPrice()
       )
     ).toList();

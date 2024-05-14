@@ -57,9 +57,9 @@ class StatisticRepository
     else
       params.add(0);
     if (search.from != null)
-      params.add(search.from!.millisecondsSinceEpoch);
+      params.add(search.from!.toIso8601String());
     if (search.to != null)
-      params.add(search.to!.millisecondsSinceEpoch);
+      params.add(search.to!.toIso8601String());
 
     var entries = await _db!.rawQuery(
       '''
