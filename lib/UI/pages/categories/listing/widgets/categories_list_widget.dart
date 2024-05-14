@@ -9,8 +9,9 @@ class CategoriesListWidget extends StatelessWidget
 {
   final List<CategoryListItem> categories;
   final void Function(int) removeCategory;
+  final void Function(int) gotoCategoryUpdatingPage;
 
-  const CategoriesListWidget({super.key, required this.categories, required this.removeCategory});
+  const CategoriesListWidget({super.key, required this.categories, required this.removeCategory, required this.gotoCategoryUpdatingPage});
 
   @override
   Widget build(BuildContext context)
@@ -45,16 +46,13 @@ class CategoriesListWidget extends StatelessWidget
                     IconButton(
                       icon: const Icon(Icons.edit),
                       color: category.getColor(),
-                      onPressed: () {},
+                      onPressed: () => gotoCategoryUpdatingPage(category.getId()),
                     ),
 
                     IconButton(
                       icon: const Icon(Icons.delete),
                       color: category.getColor(),
-                      onPressed: ()
-                      {
-                        removeCategory(category.getId());
-                      },
+                      onPressed: () => removeCategory(category.getId()),
                     )
                   ],
                 ),

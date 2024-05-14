@@ -8,10 +8,17 @@ import 'package:lab_money_5/errors.dart';
 class CategoryUpdateErrors extends Errors
 {
   final int ALREADY_EXISTS = 1;
+  final int REQUIRED_NAME = 1 << 1;
 
   /// Checks if ocurred an error because category isn't unique.
   bool isAlreadyExists()
   {
     return has(ALREADY_EXISTS);
+  }
+
+  /// Checks if ocurred an error because category's name is empty.
+  bool isNameRequired()
+  {
+    return has(REQUIRED_NAME);
   }
 }

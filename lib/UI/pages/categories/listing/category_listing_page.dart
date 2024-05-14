@@ -1,12 +1,12 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'package:flutter/material.dart';
+import 'package:lab_money_5/UI/pages/categories/updating/category_updating_page.dart';
+import '../creating/category_creating_page.dart';
 import 'package:lab_money_5/repositories/category_repository/DTO/category_list_item.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/UI/pages/categories/listing/widgets/categories_list_widget.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
-
-import '../creating/category_creating_page.dart';
 
 class CategoryListingPage extends StatefulWidget
 {
@@ -50,6 +50,20 @@ class CategoryListingPageState extends State<CategoryListingPage>
     );
   }
 
+  void _gotoCategoryUpdatingPage(int id)
+  {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategoryUpdatingPage(
+          categories: widget.categories,
+          onUpdate: _updateCategoriesList,
+          categoryId: id,
+        ),
+      )
+    );
+  }
+
   void _removeCategory(int id) async
   {
     await widget.categories.remove(id);
@@ -77,7 +91,11 @@ class CategoryListingPageState extends State<CategoryListingPage>
 
       body: Column(
         children: [
-          CategoriesListWidget(categories: _categoriesList, removeCategory: _removeCategory,),
+          CategoriesListWidget(
+            categories: _categoriesList,
+            removeCategory: _removeCategory,
+            gotoCategoryUpdatingPage: _gotoCategoryUpdatingPage,
+          ),
         ],
       )
     );

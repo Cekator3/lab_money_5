@@ -124,11 +124,11 @@ class CategoryRepository
     }
 
     // Update in cache
-    for (Category categoryCached in _categoriesCache)
+    for (int i = 0; i < _categoriesCache.length; i++)
     {
-      if (categoryCached.getId() == category.id)
+      if (category.id == _categoriesCache[i].getId())
       {
-        categoryCached = Category(
+        _categoriesCache[i] = Category(
           id: category.id,
           name: category.name,
           isIncome: category.type == CategoryType.income,
