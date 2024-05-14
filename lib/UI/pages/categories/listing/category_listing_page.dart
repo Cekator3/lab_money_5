@@ -67,7 +67,6 @@ class CategoryListingPageState extends State<CategoryListingPage>
   void _removeCategory(int id) async
   {
     await widget.categories.remove(id);
-    widget.operations.removeAllByCategory(id);
 
     _updateCategoriesList();
   }

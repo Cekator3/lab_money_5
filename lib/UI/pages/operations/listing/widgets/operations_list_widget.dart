@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lab_money_5/repositories/category_repository/DTO/category_list_item.dart';
 import 'package:lab_money_5/repositories/operation_repository/DTO/operation_list_item.dart';
 
 /// A subsystem for displaying "List of categories" widget

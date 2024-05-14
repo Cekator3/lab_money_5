@@ -1,5 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'package:lab_money_5/repositories/operation_repository/DTO/operation_list_item.dart';
+
 import '../DTO/category.dart';
 import '../DTO/operation.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,9 +29,9 @@ class OperationsPersistentStorage
     _db = await DB.getInstance();
   }
 
-  Operation _convertToOperation(var entry)
+  OperationListItem _convertToOperationListItem(var entry)
   {
-    return Operation(
+    return OperationListItem(
       id: entry['id'],
       date: entry['date'],
       price: entry['price'],
@@ -44,7 +46,7 @@ class OperationsPersistentStorage
   /// Retrieves all existing user's financial operations
   ///
   /// Returns an empty list if error was encountered.
-  Future<List<Operation>> getAll() async
+  Future<List<OperationListItem>> getAll() async
   {
     if (! _isInitialized())
       throw Exception('OperationsPersistentStorage not initialized');
@@ -70,7 +72,21 @@ class OperationsPersistentStorage
     if (entries.isEmpty)
       return [];
 
-    return entries.map((entry) => _convertToOperation(entry)).toList();
+    return entries.map((entry) => _convertToOperationListItem(entry)).toList();
+  }
+
+  Operation _convertToOperation(var entry)
+  {
+    return Operation(
+      id: entry['id'],
+      date: entry['date'],
+      price: entry['price'],
+      category: Category(
+        id: entry['category_id'],
+        name: entry['category_name'],
+        color: entry['category_color']
+      )
+    );
   }
 
   /// Retrieves user's financial operation
@@ -116,12 +132,12 @@ class OperationsPersistentStorage
   /// Nothing will be added if error was encountered.
   ///
   /// Returns operation's ID or null if error was encountered.
-  Future<int?> add(OperationAddViewModel operation) async
+  Future<void> add(OperationAddViewModel operation) async
   {
     if (! _isInitialized())
       throw Exception('OperationsPersistentStorage not initialized');
 
-    return await _db!.rawInsert('''
+    await _db!.rawInsert('''
       INSERT INTO
           operations (category_id, date, price)
       VALUES

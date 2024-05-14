@@ -27,13 +27,17 @@ class OperationsListingPageState extends State<OperationsListingPage>
   void initState()
   {
     super.initState();
-    _operationsList = widget.operations.getAll();
+    () async
+    {
+      _operationsList = await widget.operations.getAll();
+    } ();
   }
 
-  void _updateOperationsList()
+  void _updateOperationsList() async
   {
+    final operations = await widget.operations.getAll();
     setState(() {
-      _operationsList = widget.operations.getAll();
+        _operationsList = operations;
     });
   }
 

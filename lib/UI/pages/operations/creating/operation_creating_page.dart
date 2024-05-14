@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 import 'package:lab_money_5/repositories/category_repository/DTO/category_list_item.dart';
@@ -63,6 +64,16 @@ class OperationCreatingPageState extends State<OperationCreatingPage>
     Navigator.pop(context);
   }
 
+  Future<DateTime?> _negotiateDate() async
+  {
+    return await showDatePicker(
+      context: context,
+      initialDate: _date,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -78,14 +89,17 @@ class OperationCreatingPageState extends State<OperationCreatingPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              InputDatePickerFormField(
-                firstDate: DateTime.fromMicrosecondsSinceEpoch(1),
-                lastDate: DateTime.now(),
-                initialDate: _date,
-                onDateSubmitted: (value)
+              ListTile(
+                title: const Text('Дата'),
+                subtitle: Text(DateFormat.yMMMMd('ru').format(_date)),
+                onTap: () async
                 {
+                  final date = await _negotiateDate();
+                  if (date == null || date == _date)
+                    return;
+
                   setState(() {
-                    _date = value;
+                    _date = date;
                   });
                 },
               ),
