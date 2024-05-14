@@ -108,7 +108,7 @@ class OperationRepository
   /// Removes user's financial operations associated with certain category
   ///
   /// Nothing will be deleted if error was encountered.
-  Future<void> removeAllByCategory(int categoryId) async
+  void removeAllByCategory(int categoryId)
   {
     // 1. Remove from in-memory cache
     _operationsCache.removeWhere((operation) => operation.getCategory().getId() == categoryId);

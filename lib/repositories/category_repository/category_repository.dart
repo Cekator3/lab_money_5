@@ -132,7 +132,7 @@ class CategoryRepository
   /// Nothing will be deleted if error was encountered or category not exists.
   Future<void> remove(int id) async
   {
-    _categoriesStorage.remove(id);
+    await _categoriesStorage.remove(id);
 
     // Remove from cache
     for (int i = 0; i < _categoriesCache.length; i++)

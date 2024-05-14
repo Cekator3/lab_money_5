@@ -72,9 +72,9 @@ class MoneyAppState extends State<MoneyApp>
         body: IndexedStack(
           index: currentIndex,
           children: [
-            CategoryListingPage(categories: widget.categories),
-            CategoryListingPage(categories: widget.categories),
-            CategoryListingPage(categories: widget.categories),
+            CategoryListingPage(categories: widget.categories, operations: widget.operations),
+            CategoryListingPage(categories: widget.categories, operations: widget.operations),
+            CategoryListingPage(categories: widget.categories, operations: widget.operations),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
