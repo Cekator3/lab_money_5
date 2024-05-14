@@ -73,13 +73,8 @@ class CategoryRepository
     if (storageErrors.hasAny())
     {
       if (storageErrors.isAlreadyExists())
-      {
         errors.add(errors.ALREADY_EXISTS);
-        return;
-      }
-
-      // Error handling is outdated.
-      assert(false);
+      return;
     }
 
     // Add to cache
