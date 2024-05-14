@@ -51,11 +51,21 @@ class CategoryRepository
     return null;
   }
 
+  void _validateName(String name, dynamic errors)
+  {
+    if (name.isEmpty)
+      errors.add(errors.REQUIRED_NAME);
+  }
+
   /// Adds a new category
   ///
   /// Nothing will be added if error was encountered.
   Future<void> add(CategoryAddViewModel category, CategoryAddErrors errors) async
   {
+    _validateName(category.name, errors);
+    if (errors.hasAny())
+      return;
+
     // Add to storage
     final storageErrors = CategoriesPersistentStorageAddErrors();
     int? categoryId = await _categoriesStorage.add(category, storageErrors);
@@ -93,6 +103,10 @@ class CategoryRepository
   /// Nothing will be updated if error was encountered.
   Future<void> update(CategoryUpdateViewModel category, CategoryUpdateErrors errors) async
   {
+    _validateName(category.name, errors);
+    if (errors.hasAny())
+      return;
+
     // Update in storage
     final storageErrors = CategoriesPersistentStorageUpdateErrors();
     _categoriesStorage.update(category, storageErrors);

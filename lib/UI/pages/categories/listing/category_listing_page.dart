@@ -5,6 +5,8 @@ import 'package:lab_money_5/repositories/category_repository/category_repository
 import 'package:lab_money_5/UI/pages/categories/listing/widgets/categories_list_widget.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 
+import '../creating/category_creating_page.dart';
+
 class CategoryListingPage extends StatefulWidget
 {
   final CategoryRepository categories;
@@ -18,6 +20,19 @@ class CategoryListingPage extends StatefulWidget
 
 class CategoryListingPageState extends State<CategoryListingPage>
 {
+  void gotoCategoryCreatingPage()
+  {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategoryCreatingPage(
+          categories: widget.categories,
+          onCreate: () {setState(() {});}
+        ),
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -30,10 +45,11 @@ class CategoryListingPageState extends State<CategoryListingPage>
               Icons.add,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: gotoCategoryCreatingPage,
           ),
         ],
       ),
+
       body: Column(
         children: [
           CategoriesListWidget(categories: widget.categories, operations: widget.operations),

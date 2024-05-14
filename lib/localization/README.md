@@ -1,1 +1,1 @@
-Subsystem to translate application objects into user-readable strings.
+Subsystem to translate application objects into user-readable text.
