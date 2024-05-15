@@ -15,8 +15,9 @@ class CategoryTypeButtonsWidget extends StatefulWidget
   State<CategoryTypeButtonsWidget> createState() => _CategoryTypeButtonsWidgetState();
 }
 
-class _CategoryTypeButtonsWidgetState extends State<CategoryTypeButtonsWidget> {
-  CategoryType _selectedCategoryType = CategoryType.loss;
+class _CategoryTypeButtonsWidgetState extends State<CategoryTypeButtonsWidget>
+{
+  int _lastSelectedIdx = 1;
 
   Widget _buildToggleButton(String label)
   {
@@ -33,22 +34,22 @@ class _CategoryTypeButtonsWidgetState extends State<CategoryTypeButtonsWidget> {
   Widget build(BuildContext context)
   {
     return ToggleButtons(
-      isSelected: [_selectedCategoryType == CategoryType.income, _selectedCategoryType == CategoryType.loss],
+      isSelected: [_lastSelectedIdx == 0, _lastSelectedIdx == 1],
       onPressed: (index)
       {
-        CategoryType type = index == 0
-                            ? CategoryType.income
-                            : CategoryType.loss;
-
         setState(() {
-          _selectedCategoryType = type;
+          _lastSelectedIdx = index;
         });
+
+        CategoryType type = index == 0
+                            ? CategoryType.loss
+                            : CategoryType.income;
 
         widget.onCategoryTypeSelect(type);
       },
       children: [
-        _buildToggleButton('Доходы'),
         _buildToggleButton('Расходы'),
+        _buildToggleButton('Доходы'),
       ],
     );
   }

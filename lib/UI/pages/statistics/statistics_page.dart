@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab_money_5/UI/pages/statistics/widgets/category_type_buttons_widget.dart';
 import 'package:lab_money_5/UI/pages/statistics/widgets/date_interval_buttons_widget.dart';
-import 'package:lab_money_5/date_interval/date_interval.dart';
 import 'package:lab_money_5/enums/category_type.dart';
 import 'package:lab_money_5/repositories/statistic_repository/statistic_repository.dart';
 
@@ -22,7 +21,7 @@ class StatisticsPageState extends State<StatisticsPage>
     // ...
   }
 
-  void _applyDateInterval(DateInterval interval)
+  void _applyDateInterval(DateTimeRange interval)
   {
     // ...
   }

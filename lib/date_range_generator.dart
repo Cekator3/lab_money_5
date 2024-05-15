@@ -1,7 +1,7 @@
-import 'date_interval.dart';
+import 'package:flutter/material.dart';
 
-/// Subsystem for generating time intervals
-class DateIntervalGenerator
+/// Subsystem for generating date time range
+class DateRangeGenerator
 {
   static final _today = DateTime.now();
 
@@ -15,9 +15,9 @@ class DateIntervalGenerator
     return DateTime(_today.year, _today.month, _today.day, 23, 59, 59, 59, 59);
   }
 
-  static DateInterval thisDay()
+  static DateTimeRange thisDay()
   {
-    return DateInterval(_startOfToday(), _endOfToday());
+    return DateTimeRange(start: _startOfToday(), end: _endOfToday());
   }
 
   static DateTime _startOfThisWeek()
@@ -30,9 +30,9 @@ class DateIntervalGenerator
     return _today.add(Duration(days: DateTime.daysPerWeek - _today.weekday));
   }
 
-  static DateInterval thisWeek()
+  static DateTimeRange thisWeek()
   {
-    return DateInterval(_startOfThisWeek(), _endOfThisWeek());
+    return DateTimeRange(start: _startOfThisWeek(), end: _endOfThisWeek());
   }
 
   static DateTime _startOfThisMonth()
@@ -45,9 +45,9 @@ class DateIntervalGenerator
     return DateTime(_today.year, _today.month + 1, 0);
   }
 
-  static DateInterval thisMonth()
+  static DateTimeRange thisMonth()
   {
-    return DateInterval(_startOfThisMonth(), _endOfThisMonth());
+    return DateTimeRange(start: _startOfThisMonth(), end: _endOfThisMonth());
   }
 
   static DateTime _startOfThisYear()
@@ -60,8 +60,8 @@ class DateIntervalGenerator
     return DateTime(_today.year, 12, 31, 23, 59, 59, 999, 999);
   }
 
-  static DateInterval thisYear()
+  static DateTimeRange thisYear()
   {
-    return DateInterval(_startOfThisYear(), _endOfThisYear());
+    return DateTimeRange(start: _startOfThisYear(), end: _endOfThisYear());
   }
 }
