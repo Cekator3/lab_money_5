@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:lab_money_5/UI/pages/categories/listing/category_listing_page.dart';
 import 'package:lab_money_5/UI/pages/operations/listing/operations_listing_page.dart';
+import 'package:lab_money_5/UI/pages/statistics/statistics_page.dart';
 import 'package:lab_money_5/repositories/category_repository/category_repository.dart';
 import 'package:lab_money_5/repositories/operation_repository/operation_repository.dart';
 import 'package:lab_money_5/repositories/statistic_repository/statistic_repository.dart';
@@ -73,7 +74,7 @@ class MoneyAppState extends State<MoneyApp>
         body: IndexedStack(
           index: currentIndex,
           children: [
-            CategoryListingPage(categories: widget.categories, operations: widget.operations),
+            StatisticsPage(statistics: widget.statistics),
             OperationsListingPage(categories: widget.categories, operations: widget.operations),
             CategoryListingPage(categories: widget.categories, operations: widget.operations),
           ],
