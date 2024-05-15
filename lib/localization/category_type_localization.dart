@@ -5,7 +5,7 @@ class CategoryTypeLocalization
 {
   static final _localizations = {
     CategoryType.income: 'Доход',
-    CategoryType.loss: 'Убыток',
+    CategoryType.loss: 'Расход',
   };
 
   static String localize(CategoryType type)

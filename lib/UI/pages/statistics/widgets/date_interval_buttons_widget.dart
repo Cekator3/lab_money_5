@@ -17,7 +17,7 @@ class DateIntervalButtonsWidget extends StatefulWidget
 
 class _DateIntervalButtonsWidgetState extends State<DateIntervalButtonsWidget>
 {
-  int _lastSelectedIdx = 1;
+  int? _lastSelectedIdx;
   DateTimeRange? _lastSelectedDateRange;
 
   Widget _buildToggleButton(String label)

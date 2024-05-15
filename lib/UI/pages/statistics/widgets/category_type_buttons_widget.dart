@@ -17,7 +17,7 @@ class CategoryTypeButtonsWidget extends StatefulWidget
 
 class _CategoryTypeButtonsWidgetState extends State<CategoryTypeButtonsWidget>
 {
-  int _lastSelectedIdx = 1;
+  int? _lastSelectedIdx;
 
   Widget _buildToggleButton(String label)
   {
