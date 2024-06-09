@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:lab_money_5/UI/pages/statistics/widgets/category_type_buttons_widget.dart';
 import 'package:lab_money_5/UI/pages/statistics/widgets/date_interval_buttons_widget.dart';
+import 'package:lab_money_5/UI/pages/statistics/widgets/graphic.dart';
 import 'package:lab_money_5/enums/category_type.dart';
 import 'package:lab_money_5/repositories/statistic_repository/DTO/statistic_entry.dart';
 import 'package:lab_money_5/repositories/statistic_repository/statistic_repository.dart';
@@ -82,7 +83,7 @@ class StatisticsPageState extends State<StatisticsPage>
           DateIntervalButtonsWidget(onIntervalSelect: _applyDateInterval),
           const SizedBox(height: 16),
 
-          // Graphic
+          GraphicWidget(statisticEntries: _statisticEntries,)
         ],
       )
     );
