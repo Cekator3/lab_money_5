@@ -83,7 +83,13 @@ class StatisticsPageState extends State<StatisticsPage>
           DateIntervalButtonsWidget(onIntervalSelect: _applyDateInterval),
           const SizedBox(height: 16),
 
-          GraphicWidget(statisticEntries: _statisticEntries,)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8
+            ),
+            child: GraphicWidget(statisticEntries: _statisticEntries,),
+          )
         ],
       )
     );

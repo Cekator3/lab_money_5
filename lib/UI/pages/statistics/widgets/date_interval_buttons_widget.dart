@@ -33,13 +33,25 @@ class _DateIntervalButtonsWidgetState extends State<DateIntervalButtonsWidget>
 
   Future<DateTimeRange?> _negotiateDateRange() async
   {
-    return await showDateRangePicker(
+    DateTimeRange? dateRange = await showDateRangePicker(
       context: context,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
       currentDate: DateTime.now(),
       initialDateRange: _lastSelectedDateRange,
     );
+    if (dateRange == null)
+      return null;
+    final start = DateTime(dateRange.start.year, dateRange.start.month, dateRange.start.day);
+    final end = DateTime(
+      dateRange.end.year,
+      dateRange.end.month,
+      dateRange.end.day,
+      23,
+      59,
+      59
+    );
+    return DateTimeRange(start: start, end: end);
   }
 
   @override
